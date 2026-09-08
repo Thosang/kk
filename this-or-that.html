@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>This or That Game</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #4b197d 0%,
+            #25103f 50%,
+            #12091f 100%
+        );
+
+    color: white;
+}
+
+
+/* =========================================
+   MAIN GAME AREA
+========================================= */
+
+.game {
+
+    min-height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-evenly;
+    align-items: center;
+
+    padding: 2vh 4vw;
+}
+
+
+/* =========================================
+   DECORATIVE LIGHTS
+========================================= */
+
+.lights {
+
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+.light {
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background: #f7ecc1;
+
+    box-shadow:
+        0 0 15px #f7ecc1;
+
+    animation:
+        blink 1s infinite alternate;
+}
+
+.light:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.light:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.light:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.light:nth-child(5) {
+    animation-delay: 0.8s;
+}
+
+.light:nth-child(6) {
+    animation-delay: 1s;
+}
+
+.light:nth-child(7) {
+    animation-delay: 1.2s;
+}
+
+.light:nth-child(8) {
+    animation-delay: 1.4s;
+}
+
+@keyframes blink {
+
+    from {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+
+/* =========================================
+   RANDOMIZER
+========================================= */
+
+.randomizer {
+
+    width: min(1000px, 90vw);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 1;
+}
+
+
+/* Topic heading */
+
+.topic-label {
+
+    font-size:
+        clamp(20px, 2.5vw, 34px);
+
+    font-weight: bold;
+
+    color: #f7ecc1;
+
+    margin-bottom: 2vh;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 15px
+        rgba(247,236,193,0.4);
+}
+
+
+/* =========================================
+   SLOT MACHINE
+========================================= */
+
+.machine {
+
+    width: 100%;
+
+    padding:
+        clamp(20px, 3vw, 40px);
+
+    background:
+        linear-gradient(
+            145deg,
+            #f7d774,
+            #b77a18,
+            #f7d774
+        );
+
+    border:
+        clamp(6px, 0.7vw, 10px)
+        solid
+        #f7ecc1;
+
+    border-radius: 30px;
+
+    box-shadow:
+
+        0 0 30px
+        rgba(247,236,193,0.35),
+
+        inset 0 0 20px
+        rgba(0,0,0,0.4);
+}
+
+
+.slot-window {
+
+    width: 100%;
+
+    min-height:
+        clamp(130px, 20vh, 230px);
+
+    background: #12091f;
+
+    border:
+        8px solid
+        #4c2870;
+
+    border-radius: 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+
+        inset 0 0 30px #000,
+
+        0 0 20px
+        rgba(0,0,0,0.6);
+}
+
+
+/* Topic text */
+
+.topic {
+
+    color: #f7ecc1;
+
+    font-size:
+        clamp(30px, 4vw, 60px);
+
+    font-weight: 900;
+
+    text-align: center;
+
+    line-height: 1.1;
+
+    text-shadow:
+
+        0 0 8px
+        rgba(247,236,193,0.7),
+
+        0 0 20px
+        rgba(247,236,193,0.3);
+}
+
+
+/* Spinning animation */
+
+.topic.spinning {
+
+    animation:
+        slotShake 0.08s infinite;
+}
+
+@keyframes slotShake {
+
+    0% {
+        transform: translateY(-5px);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
+
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+
+/* =========================================
+   SPIN BUTTON
+========================================= */
+
+.spin-button {
+
+    margin-top: 3vh;
+
+    padding:
+        18px 55px;
+
+    font-size:
+        clamp(22px, 2vw, 32px);
+
+    font-weight: 900;
+
+    border: none;
+
+    border-radius: 50px;
+
+    cursor: pointer;
+
+    color: #25103f;
+
+    background: #f7ecc1;
+
+    box-shadow:
+
+        0 7px 0 #b79f63,
+
+        0 0 25px
+        rgba(247,236,193,0.45);
+
+    transition: 0.15s;
+}
+
+.spin-button:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+
+        0 10px 0 #b79f63,
+
+        0 0 35px
+        rgba(247,236,193,0.7);
+}
+
+.spin-button:active {
+
+    transform: translateY(5px);
+
+    box-shadow:
+        0 2px 0 #b79f63;
+}
+
+.spin-button:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================
+   COUNTER
+========================================= */
+
+.counter {
+
+    margin-top: 1.5vh;
+
+    font-size:
+        clamp(14px, 1.3vw, 20px);
+
+    color: #f7ecc1;
+
+    opacity: 0.85;
+}
+
+
+/* =========================================
+   TIMERS
+========================================= */
+
+.timers {
+
+    width: min(1200px, 90vw);
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 3vw;
+
+    flex-shrink: 0;
+
+    margin-top: 2vh;
+}
+
+
+.timer-card {
+
+    background:
+        rgba(18,9,31,0.9);
+
+    border:
+        5px solid #b77a18;
+
+    border-radius: 25px;
+
+    padding:
+        clamp(18px, 2vw, 30px);
+
+    text-align: center;
+
+    box-shadow:
+
+        0 0 25px
+        rgba(0,0,0,0.5),
+
+        inset 0 0 15px
+        rgba(247,236,193,0.08);
+}
+
+
+.timer-label {
+
+    font-size:
+        clamp(18px, 2vw, 28px);
+
+    font-weight: bold;
+
+    color: #f7ecc1;
+
+    margin-bottom: 1vh;
+
+    letter-spacing: 2px;
+}
+
+
+.timer {
+
+    font-size:
+        clamp(65px, 9vw, 130px);
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    color: #f7ecc1;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+
+        0 0 10px
+        rgba(247,236,193,0.8),
+
+        0 0 30px
+        rgba(247,236,193,0.35);
+}
+
+
+.timer.active {
+
+    animation:
+        timerPulse 1s infinite;
+}
+
+
+@keyframes timerPulse {
+
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+}
+
+
+.timer.finished {
+
+    animation:
+        timerFinished
+        0.5s infinite alternate;
+}
+
+
+@keyframes timerFinished {
+
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.08);
+        opacity: 0.5;
+    }
+}
+
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.controls {
+
+    display: flex;
+
+    gap: 15px;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    margin-top: 1vh;
+}
+
+
+.control-button {
+
+    padding:
+        10px 25px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    border:
+        2px solid #f7ecc1;
+
+    border-radius: 30px;
+
+    background: transparent;
+
+    color: #f7ecc1;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.control-button:hover {
+
+    background: #f7ecc1;
+
+    color: #25103f;
+}
+
+
+#newRound {
+
+    display: none;
+}
+
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+.confetti {
+
+    position: fixed;
+
+    width: 10px;
+    height: 10px;
+
+    top: -20px;
+
+    animation:
+        fall linear forwards;
+
+    z-index: 100;
+}
+
+
+@keyframes fall {
+
+    to {
+
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================================
+   SCREEN FLASH
+========================================= */
+
+.flash {
+
+    animation:
+        screenFlash
+        0.4s
+        ease-in-out
+        3;
+}
+
+
+@keyframes screenFlash {
+
+    0%, 100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.8);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .game {
+
+        min-height: 100vh;
+
+        padding: 15px;
+
+        justify-content:
+            flex-start;
+
+        gap: 20px;
+    }
+
+    .randomizer {
+
+        flex: none;
+
+        width: 95vw;
+    }
+
+    .timers {
+
+        width: 95vw;
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .timer {
+
+        font-size: 70px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="game" id="game">
+
+
+    <!-- =====================================
+         DECORATIVE LIGHTS
+    ====================================== -->
+
+    <div class="lights">
+
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+
+    </div>
+
+
+    <!-- =====================================
+         RANDOMIZER
+    ====================================== -->
+
+    <div class="randomizer">
+
+
+        <div class="topic-label">
+            ⭐ TOPIC ⭐
+        </div>
+
+
+        <div class="machine">
+
+            <div class="slot-window">
+
+                <div
+                    class="topic"
+                    id="topic"
+                >
+                    READY?
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="spin-button"
+            id="spinButton"
+            onclick="spin()"
+        >
+            🎰 SPIN!
+        </button>
+
+
+        <div
+            class="counter"
+            id="counter"
+        >
+            Topics Used: 0 / 25
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         TIMERS
+    ====================================== -->
+
+    <div class="timers">
+
+
+        <!-- 30 SECOND TIMER -->
+
+        <div class="timer-card">
+
+            <div class="timer-label">
+                ⏱️ CHALLENGE
+            </div>
+
+            <div
+                class="timer"
+                id="timer1"
+            >
+                00:30
+            </div>
+
+        </div>
+
+
+        <!-- 1 MINUTE TIMER -->
+
+        <div class="timer-card">
+
+            <div class="timer-label">
+                ⏱️ DISCUSSION
+            </div>
+
+            <div
+                class="timer"
+                id="timer2"
+            >
+                01:00
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         CONTROLS
+    ====================================== -->
+
+    <div class="controls">
+
+
+        <button
+            class="control-button"
+            onclick="resetTimers()"
+        >
+            🔄 RESET TIMERS
+        </button>
+
+
+        <!-- SOUND TEST BUTTON -->
+
+        <button
+            class="control-button"
+            onclick="testSound()"
+        >
+            🔊 TEST SOUND
+        </button>
+
+
+        <button
+            class="control-button"
+            id="newRound"
+            onclick="newRound()"
+        >
+            🎯 NEW ROUND
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   TOPICS
+========================================= */
+
+const topics = [
+
+    ["Influencer", "Entrepreneur"],
+
+    ["Doctor", "Engineer"],
+
+    ["Office worker", "Freelancer"],
+
+    ["Airline pilot", "Ship captain"],
+
+    ["Civil servant", "Private company employee"],
+
+    ["Studying alone", "Studying in a group"],
+
+    ["Online classes", "On-site classes"],
+
+    ["Morning study", "Night study"],
+
+    ["Memorization", "Critical thinking"],
+
+    ["Exams", "Projects"],
+
+    ["Early bird", "Night owl"],
+
+    ["Living alone", "Living with family"],
+
+    ["City life", "Countryside life"],
+
+    ["Minimalist lifestyle", "Comfortable lifestyle"],
+
+    ["Working from home", "Working in an office"],
+
+    ["Smartphone", "Laptop"],
+
+    ["Social media", "Face-to-face communication"],
+
+    ["Online shopping", "In-store shopping"],
+
+    ["Cashless payment", "Cash payment"],
+
+    ["Artificial intelligence", "Human decision-making"],
+
+    ["Solo travel", "Group travel"],
+
+    ["Beach vacation", "Mountain trip"],
+
+    ["Domestic travel", "International travel"],
+
+    ["Planned itinerary", "Free exploration"],
+
+    ["Cultural tourism", "Adventure tourism"]
+
+];
+
+
+let usedTopics = [];
+
+let spinning = false;
+
+
+/* =========================================
+   TIMER VARIABLES
+========================================= */
+
+let timer1Seconds = 30;
+
+let timer2Seconds = 60;
+
+let timer1Interval = null;
+
+let timer2Interval = null;
+
+
+/* =========================================
+   AUDIO SYSTEM
+========================================= */
+
+/*
+    IMPORTANT:
+
+    We create ONE AudioContext and reuse it.
+
+    This is more reliable than creating a
+    completely new audio system every time
+    the timer reaches zero.
+*/
+
+let audioContext = null;
+
+
+/* =========================================
+   INITIALIZE AUDIO
+========================================= */
+
+function initializeAudio() {
+
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+
+    if (!AudioContext) {
+
+        alert(
+            "Your browser does not support Web Audio."
+        );
+
+        return false;
+    }
+
+
+    /*
+        Create the audio system only once.
+    */
+
+    if (!audioContext) {
+
+        audioContext =
+            new AudioContext();
+    }
+
+
+    /*
+        Chrome may initially put the
+        AudioContext into "suspended" mode.
+
+        Resume it after the user clicks
+        the SPIN button.
+    */
+
+    if (
+        audioContext.state ===
+        "suspended"
+    ) {
+
+        audioContext.resume();
+    }
+
+
+    return true;
+}
+
+
+/* =========================================
+   BEEP
+========================================= */
+
+function beep() {
+
+
+    /*
+        Make sure audio exists.
+    */
+
+    if (!initializeAudio()) {
+        return;
+    }
+
+
+    /*
+        Resume audio if necessary.
+    */
+
+    if (
+        audioContext.state ===
+        "suspended"
+    ) {
+
+        audioContext.resume();
+    }
+
+
+    const oscillator =
+        audioContext.createOscillator();
+
+
+    const gain =
+        audioContext.createGain();
+
+
+    /*
+        Connect:
+
+        oscillator
+             ↓
+           gain
+             ↓
+         speakers
+    */
+
+    oscillator.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    /*
+        SQUARE WAVE
+
+        Much sharper and easier to hear
+        than a soft sine-wave sound.
+    */
+
+    oscillator.type = "square";
+
+
+    /*
+        1200 Hz = high, noticeable beep
+    */
+
+    oscillator.frequency.setValueAtTime(
+        1200,
+        audioContext.currentTime
+    );
+
+
+    /*
+        MAXIMUM PRACTICAL GAIN
+
+        This is intentionally loud.
+
+        1.0 = maximum gain level.
+    */
+
+    gain.gain.cancelScheduledValues(
+        audioContext.currentTime
+    );
+
+    gain.gain.setValueAtTime(
+        1.0,
+        audioContext.currentTime
+    );
+
+
+    /*
+        Keep the beep loud for a moment,
+        then quickly fade it out.
+    */
+
+    gain.gain.setValueAtTime(
+        1.0,
+        audioContext.currentTime + 0.35
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 0.7
+    );
+
+
+    /*
+        Start immediately.
+    */
+
+    oscillator.start(
+        audioContext.currentTime
+    );
+
+
+    /*
+        Stop after 0.7 seconds.
+    */
+
+    oscillator.stop(
+        audioContext.currentTime + 0.7
+    );
+}
+
+
+/* =========================================
+   TIMER BEEP
+========================================= */
+
+/*
+    Each timer ending produces:
+
+    BEEP
+    wait 0.7 sec
+    BEEP
+    wait 0.7 sec
+    BEEP
+*/
+
+function timerBeep() {
+
+
+    beep();
+
+
+    setTimeout(() => {
+
+        beep();
+
+    }, 700);
+
+
+    setTimeout(() => {
+
+        beep();
+
+    }, 1400);
+}
+
+
+/* =========================================
+   TEST SOUND BUTTON
+========================================= */
+
+/*
+    This lets you test the sound immediately.
+
+    If you click TEST SOUND and hear it,
+    the timer sound will also work.
+*/
+
+function testSound() {
+
+    initializeAudio();
+
+    beep();
+
+    setTimeout(() => {
+
+        beep();
+
+    }, 700);
+
+
+    setTimeout(() => {
+
+        beep();
+
+    }, 1400);
+}
+
+
+/* =========================================
+   FORMAT TIMER
+========================================= */
+
+function formatTime(seconds) {
+
+
+    const minutes =
+        Math.floor(
+            seconds / 60
+        );
+
+
+    const remainingSeconds =
+        seconds % 60;
+
+
+    return (
+
+        String(minutes)
+            .padStart(2, "0")
+
+        +
+
+        ":"
+
+        +
+
+        String(remainingSeconds)
+            .padStart(2, "0")
+    );
+}
+
+
+/* =========================================
+   RESET TIMERS
+========================================= */
+
+function resetTimers() {
+
+
+    clearInterval(
+        timer1Interval
+    );
+
+
+    clearInterval(
+        timer2Interval
+    );
+
+
+    timer1Interval = null;
+
+    timer2Interval = null;
+
+
+    timer1Seconds = 30;
+
+    timer2Seconds = 60;
+
+
+    document.getElementById(
+        "timer1"
+    ).textContent = "00:30";
+
+
+    document.getElementById(
+        "timer2"
+    ).textContent = "01:00";
+
+
+    document.getElementById(
+        "timer1"
+    ).classList.remove(
+        "active",
+        "finished"
+    );
+
+
+    document.getElementById(
+        "timer2"
+    ).classList.remove(
+        "active",
+        "finished"
+    );
+}
+
+
+/* =========================================
+   START TIMER 1
+========================================= */
+
+function startTimers() {
+
+
+    resetTimers();
+
+
+    const timer1 =
+        document.getElementById(
+            "timer1"
+        );
+
+
+    timer1.classList.add(
+        "active"
+    );
+
+
+    timer1Interval =
+        setInterval(() => {
+
+
+            timer1Seconds--;
+
+
+            timer1.textContent =
+                formatTime(
+                    timer1Seconds
+                );
+
+
+            if (
+                timer1Seconds <= 0
+            ) {
+
+
+                clearInterval(
+                    timer1Interval
+                );
+
+
+                timer1Interval = null;
+
+
+                timer1.classList.remove(
+                    "active"
+                );
+
+
+                timer1.classList.add(
+                    "finished"
+                );
+
+
+                /*
+                    Flash the screen.
+                */
+
+                document.getElementById(
+                    "game"
+                ).classList.add(
+                    "flash"
+                );
+
+
+                setTimeout(() => {
+
+                    document.getElementById(
+                        "game"
+                    ).classList.remove(
+                        "flash"
+                    );
+
+                }, 1200);
+
+
+                /*
+                    PLAY 3 LOUD BEEPS
+                */
+
+                timerBeep();
+
+
+                /*
+                    Start 1-minute timer
+                    after the beeps.
+                */
+
+                setTimeout(() => {
+
+
+                    timer1.classList.remove(
+                        "finished"
+                    );
+
+
+                    startTimer2();
+
+
+                }, 2100);
+
+            }
+
+
+        }, 1000);
+}
+
+
+/* =========================================
+   START TIMER 2
+========================================= */
+
+function startTimer2() {
+
+
+    const timer2 =
+        document.getElementById(
+            "timer2"
+        );
+
+
+    timer2.classList.add(
+        "active"
+    );
+
+
+    timer2Interval =
+        setInterval(() => {
+
+
+            timer2Seconds--;
+
+
+            timer2.textContent =
+                formatTime(
+                    timer2Seconds
+                );
+
+
+            if (
+                timer2Seconds <= 0
+            ) {
+
+
+                clearInterval(
+                    timer2Interval
+                );
+
+
+                timer2Interval = null;
+
+
+                timer2.classList.remove(
+                    "active"
+                );
+
+
+                timer2.classList.add(
+                    "finished"
+                );
+
+
+                /*
+                    Flash screen.
+                */
+
+                document.getElementById(
+                    "game"
+                ).classList.add(
+                    "flash"
+                );
+
+
+                setTimeout(() => {
+
+                    document.getElementById(
+                        "game"
+                    ).classList.remove(
+                        "flash"
+                    );
+
+                }, 1200);
+
+
+                /*
+                    PLAY 3 LOUD BEEPS
+                */
+
+                timerBeep();
+
+            }
+
+
+        }, 1000);
+}
+
+
+/* =========================================
+   SPIN RANDOMIZER
+========================================= */
+
+function spin() {
+
+
+    /*
+        VERY IMPORTANT:
+
+        The user has clicked the SPIN button.
+
+        This gives Chrome permission to
+        activate the AudioContext.
+    */
+
+    initializeAudio();
+
+
+    if (spinning) {
+        return;
+    }
+
+
+    /*
+        If all topics were used,
+        automatically start another round.
+    */
+
+    if (
+        usedTopics.length >=
+        topics.length
+    ) {
+
+        newRound();
+    }
+
+
+    spinning = true;
+
+
+    const button =
+        document.getElementById(
+            "spinButton"
+        );
+
+
+    const topicDisplay =
+        document.getElementById(
+            "topic"
+        );
+
+
+    button.disabled = true;
+
+
+    topicDisplay.classList.add(
+        "spinning"
+    );
+
+
+    let cycles = 0;
+
+
+    /*
+        ====================================
+        SPINNING TIME
+        ====================================
+
+        25 cycles × 80 milliseconds
+        = 2000 milliseconds
+        = 2 seconds
+
+        To change the speed/duration:
+
+        80 = current setting
+    */
+
+    const spinInterval =
+        setInterval(() => {
+
+
+            const randomIndex =
+                Math.floor(
+                    Math.random() *
+                    topics.length
+                );
+
+
+            const randomTopic =
+                topics[randomIndex];
+
+
+            topicDisplay.textContent =
+
+                randomTopic[0]
+                +
+                "  OR  "
+                +
+                randomTopic[1];
+
+
+            cycles++;
+
+
+            if (
+                cycles >= 25
+            ) {
+
+
+                clearInterval(
+                    spinInterval
+                );
+
+
+                finishSpin();
+
+            }
+
+
+        }, 80);
+}
+
+
+/* =========================================
+   FINISH SPIN
+========================================= */
+
+function finishSpin() {
+
+
+    const topicDisplay =
+        document.getElementById(
+            "topic"
+        );
+
+
+    const button =
+        document.getElementById(
+            "spinButton"
+        );
+
+
+    /*
+        Find unused topics.
+    */
+
+    let availableTopics =
+        topics.filter(
+            (_, index) =>
+                !usedTopics.includes(
+                    index
+                )
+        );
+
+
+    /*
+        Select random unused topic.
+    */
+
+    const selectedIndex =
+        Math.floor(
+            Math.random() *
+            availableTopics.length
+        );
+
+
+    const topic =
+        availableTopics[
+            selectedIndex
+        ];
+
+
+    const actualIndex =
+        topics.indexOf(
+            topic
+        );
+
+
+    usedTopics.push(
+        actualIndex
+    );
+
+
+    /*
+        Display final topic.
+    */
+
+    topicDisplay.textContent =
+
+        topic[0]
+        +
+        "  OR  "
+        +
+        topic[1];
+
+
+    topicDisplay.classList.remove(
+        "spinning"
+    );
+
+
+    button.disabled = false;
+
+
+    /*
+        Update counter.
+    */
+
+    document.getElementById(
+        "counter"
+    ).textContent =
+
+        "Topics Used: "
+        +
+        usedTopics.length
+        +
+        " / "
+        +
+        topics.length;
+
+
+    /*
+        Winner animation.
+    */
+
+    topicDisplay.animate(
+
+        [
+            {
+                transform:
+                    "scale(1)"
+            },
+
+            {
+                transform:
+                    "scale(1.15)"
+            },
+
+            {
+                transform:
+                    "scale(1)"
+            }
+        ],
+
+        {
+            duration: 500,
+            iterations: 2
+        }
+    );
+
+
+    /*
+        Confetti.
+    */
+
+    createConfetti();
+
+
+    spinning = false;
+
+
+    /*
+        Reset timers.
+    */
+
+    resetTimers();
+
+
+    /*
+        Automatically start
+        the 30-second timer.
+    */
+
+    setTimeout(() => {
+
+        startTimers();
+
+    }, 500);
+
+
+    /*
+        Show New Round button
+        after all topics are used.
+    */
+
+    if (
+        usedTopics.length >=
+        topics.length
+    ) {
+
+        document.getElementById(
+            "newRound"
+        ).style.display =
+            "inline-block";
+    }
+}
+
+
+/* =========================================
+   NEW ROUND
+========================================= */
+
+function newRound() {
+
+
+    usedTopics = [];
+
+
+    spinning = false;
+
+
+    resetTimers();
+
+
+    document.getElementById(
+        "topic"
+    ).textContent =
+        "READY?";
+
+
+    document.getElementById(
+        "counter"
+    ).textContent =
+        "Topics Used: 0 / 25";
+
+
+    document.getElementById(
+        "newRound"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "spinButton"
+    ).disabled = false;
+}
+
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+function createConfetti() {
+
+
+    const symbols = [
+
+        "⭐",
+        "✨",
+        "🎉",
+        "🎊",
+        "💫"
+
+    ];
+
+
+    for (
+        let i = 0;
+        i < 35;
+        i++
+    ) {
+
+
+        const confetti =
+            document.createElement(
+                "div"
+            );
+
+
+        confetti.className =
+            "confetti";
+
+
+        confetti.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+
+        confetti.style.left =
+            Math.random() *
+            100 +
+            "vw";
+
+
+        confetti.style.fontSize =
+
+            (
+                15 +
+                Math.random() *
+                20
+            )
+            +
+            "px";
+
+
+        confetti.style.animationDuration =
+
+            (
+                2 +
+                Math.random() *
+                3
+            )
+            +
+            "s";
+
+
+        document.body.appendChild(
+            confetti
+        );
+
+
+        setTimeout(() => {
+
+            confetti.remove();
+
+        }, 5000);
+
+    }
+}
+
+
+/* =========================================
+   SPACEBAR = SPIN
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+
+        if (
+            event.code ===
+            "Space"
+        ) {
+
+
+            event.preventDefault();
+
+
+            spin();
+
+        }
+
+    }
+);
+
+
+</script>
+
+</body>
+</html>
