@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,20 +9,35 @@
 
 <style>
 
+/* =========================================
+   RESET
+========================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+
+/* =========================================
+   BODY
+========================================= */
+
 body {
+
     min-height: 100vh;
     width: 100vw;
+
     overflow: hidden;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     background:
+
         radial-gradient(
             circle at center,
             #4b197d 0%,
@@ -43,9 +59,11 @@ body {
     width: 100%;
 
     display: flex;
+
     flex-direction: column;
 
     justify-content: space-evenly;
+
     align-items: center;
 
     padding: 2vh 4vw;
@@ -61,11 +79,14 @@ body {
     width: 100%;
 
     display: flex;
+
     justify-content: space-around;
+
     align-items: center;
 
     flex-shrink: 0;
 }
+
 
 .light {
 
@@ -82,6 +103,7 @@ body {
     animation:
         blink 1s infinite alternate;
 }
+
 
 .light:nth-child(2) {
     animation-delay: 0.2s;
@@ -111,16 +133,23 @@ body {
     animation-delay: 1.4s;
 }
 
+
 @keyframes blink {
 
     from {
+
         opacity: 0.3;
-        transform: scale(0.8);
+
+        transform:
+            scale(0.8);
     }
 
     to {
+
         opacity: 1;
-        transform: scale(1.2);
+
+        transform:
+            scale(1.2);
     }
 }
 
@@ -131,19 +160,24 @@ body {
 
 .randomizer {
 
-    width: min(1000px, 90vw);
+    width:
+        min(1000px, 90vw);
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
     flex: 1;
 }
 
 
-/* Topic heading */
+/* =========================================
+   TOPIC LABEL
+========================================= */
 
 .topic-label {
 
@@ -176,6 +210,7 @@ body {
         clamp(20px, 3vw, 40px);
 
     background:
+
         linear-gradient(
             145deg,
             #f7d774,
@@ -218,6 +253,7 @@ body {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 20px;
@@ -233,7 +269,9 @@ body {
 }
 
 
-/* Topic text */
+/* =========================================
+   TOPIC TEXT
+========================================= */
 
 .topic {
 
@@ -258,7 +296,9 @@ body {
 }
 
 
-/* Spinning animation */
+/* =========================================
+   SPINNING ANIMATION
+========================================= */
 
 .topic.spinning {
 
@@ -266,18 +306,25 @@ body {
         slotShake 0.08s infinite;
 }
 
+
 @keyframes slotShake {
 
     0% {
-        transform: translateY(-5px);
+
+        transform:
+            translateY(-5px);
     }
 
     50% {
-        transform: translateY(5px);
+
+        transform:
+            translateY(5px);
     }
 
     100% {
-        transform: translateY(-5px);
+
+        transform:
+            translateY(-5px);
     }
 }
 
@@ -318,9 +365,11 @@ body {
     transition: 0.15s;
 }
 
+
 .spin-button:hover {
 
-    transform: translateY(-3px);
+    transform:
+        translateY(-3px);
 
     box-shadow:
 
@@ -330,13 +379,16 @@ body {
         rgba(247,236,193,0.7);
 }
 
+
 .spin-button:active {
 
-    transform: translateY(5px);
+    transform:
+        translateY(5px);
 
     box-shadow:
         0 2px 0 #b79f63;
 }
+
 
 .spin-button:disabled {
 
@@ -371,7 +423,8 @@ body {
 
 .timers {
 
-    width: min(1200px, 90vw);
+    width:
+        min(1200px, 90vw);
 
     display: grid;
 
@@ -459,11 +512,15 @@ body {
 @keyframes timerPulse {
 
     0%, 100% {
-        transform: scale(1);
+
+        transform:
+            scale(1);
     }
 
     50% {
-        transform: scale(1.04);
+
+        transform:
+            scale(1.04);
     }
 }
 
@@ -479,12 +536,18 @@ body {
 @keyframes timerFinished {
 
     from {
-        transform: scale(1);
+
+        transform:
+            scale(1);
+
         opacity: 1;
     }
 
     to {
-        transform: scale(1.08);
+
+        transform:
+            scale(1.08);
+
         opacity: 0.5;
     }
 }
@@ -596,11 +659,15 @@ body {
 @keyframes screenFlash {
 
     0%, 100% {
-        filter: brightness(1);
+
+        filter:
+            brightness(1);
     }
 
     50% {
-        filter: brightness(1.8);
+
+        filter:
+            brightness(1.8);
     }
 }
 
@@ -612,8 +679,10 @@ body {
 @media (max-width: 700px) {
 
     body {
+
         overflow-y: auto;
     }
+
 
     .game {
 
@@ -627,12 +696,14 @@ body {
         gap: 20px;
     }
 
+
     .randomizer {
 
         flex: none;
 
         width: 95vw;
     }
+
 
     .timers {
 
@@ -642,20 +713,26 @@ body {
             1fr;
     }
 
+
     .timer {
 
         font-size: 70px;
     }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<div class="game" id="game">
+<div
+    class="game"
+    id="game"
+>
 
 
     <!-- =====================================
@@ -718,7 +795,7 @@ body {
             class="counter"
             id="counter"
         >
-            Topics Used: 0 / 25
+            Topics Used: 0 / 10
         </div>
 
 
@@ -786,8 +863,6 @@ body {
         </button>
 
 
-        <!-- SOUND TEST BUTTON -->
-
         <button
             class="control-button"
             onclick="testSound()"
@@ -811,7 +886,6 @@ body {
 </div>
 
 
-
 <script>
 
 
@@ -819,17 +893,49 @@ body {
    TOPICS
 ========================================= */
 
+/*
+    IMPORTANT:
+
+    Each topic is now a STRING.
+
+    Previously:
+
+    ["Topic A", "Topic B"]
+
+    The old code tried to use:
+
+    topic[0]
+    topic[1]
+
+    which caused "undefined".
+
+    Now we simply use:
+
+    topic
+*/
+
 const topics = [
-    ["AI-generated videos make it harder to tell real news from fake news."],
-    ["Posts on social media encourage risky behaviour among teenagers."],
-    ["More people get news only from headlines, not full articles."],
-    ["Online influencers accused of spreading false health information."],
-    ["People prioritize mental health over career success."],
-    ["Grades matter less as students focus on practical skills."],
-    ["Gap years become more popular among high school graduates."],
-    ["Young people spend more time talking to AI chatbots than to friends."],
-    ["Fast fashion creates growing environmental problems around the world."],
-    ["Schools debate whether smartphones should be completely banned in classrooms."]
+
+    "AI-generated videos make it harder to tell real news from fake news.",
+
+    "Posts on social media encourage risky behaviour among teenagers.",
+
+    "More people get news only from headlines, not full articles.",
+
+    "Online influencers accused of spreading false health information.",
+
+    "People prioritize mental health over career success.",
+
+    "Grades matter less as students focus on practical skills.",
+
+    "Gap years become more popular among high school graduates.",
+
+    "Young people spend more time talking to AI chatbots than to friends.",
+
+    "Fast fashion creates growing environmental problems around the world.",
+
+    "Schools debate whether smartphones should be completely banned in classrooms."
+
 ];
 
 
@@ -855,16 +961,6 @@ let timer2Interval = null;
    AUDIO SYSTEM
 ========================================= */
 
-/*
-    IMPORTANT:
-
-    We create ONE AudioContext and reuse it.
-
-    This is more reliable than creating a
-    completely new audio system every time
-    the timer reaches zero.
-*/
-
 let audioContext = null;
 
 
@@ -873,6 +969,7 @@ let audioContext = null;
 ========================================= */
 
 function initializeAudio() {
+
 
     const AudioContext =
         window.AudioContext ||
@@ -889,24 +986,12 @@ function initializeAudio() {
     }
 
 
-    /*
-        Create the audio system only once.
-    */
-
     if (!audioContext) {
 
         audioContext =
             new AudioContext();
     }
 
-
-    /*
-        Chrome may initially put the
-        AudioContext into "suspended" mode.
-
-        Resume it after the user clicks
-        the SPIN button.
-    */
 
     if (
         audioContext.state ===
@@ -928,18 +1013,11 @@ function initializeAudio() {
 function beep() {
 
 
-    /*
-        Make sure audio exists.
-    */
-
     if (!initializeAudio()) {
+
         return;
     }
 
-
-    /*
-        Resume audio if necessary.
-    */
 
     if (
         audioContext.state ===
@@ -958,16 +1036,6 @@ function beep() {
         audioContext.createGain();
 
 
-    /*
-        Connect:
-
-        oscillator
-             ↓
-           gain
-             ↓
-         speakers
-    */
-
     oscillator.connect(gain);
 
     gain.connect(
@@ -975,19 +1043,9 @@ function beep() {
     );
 
 
-    /*
-        SQUARE WAVE
+    oscillator.type =
+        "square";
 
-        Much sharper and easier to hear
-        than a soft sine-wave sound.
-    */
-
-    oscillator.type = "square";
-
-
-    /*
-        1200 Hz = high, noticeable beep
-    */
 
     oscillator.frequency.setValueAtTime(
         1200,
@@ -995,28 +1053,16 @@ function beep() {
     );
 
 
-    /*
-        MAXIMUM PRACTICAL GAIN
-
-        This is intentionally loud.
-
-        1.0 = maximum gain level.
-    */
-
     gain.gain.cancelScheduledValues(
         audioContext.currentTime
     );
+
 
     gain.gain.setValueAtTime(
         1.0,
         audioContext.currentTime
     );
 
-
-    /*
-        Keep the beep loud for a moment,
-        then quickly fade it out.
-    */
 
     gain.gain.setValueAtTime(
         1.0,
@@ -1030,18 +1076,10 @@ function beep() {
     );
 
 
-    /*
-        Start immediately.
-    */
-
     oscillator.start(
         audioContext.currentTime
     );
 
-
-    /*
-        Stop after 0.7 seconds.
-    */
 
     oscillator.stop(
         audioContext.currentTime + 0.7
@@ -1052,16 +1090,6 @@ function beep() {
 /* =========================================
    TIMER BEEP
 ========================================= */
-
-/*
-    Each timer ending produces:
-
-    BEEP
-    wait 0.7 sec
-    BEEP
-    wait 0.7 sec
-    BEEP
-*/
 
 function timerBeep() {
 
@@ -1085,21 +1113,16 @@ function timerBeep() {
 
 
 /* =========================================
-   TEST SOUND BUTTON
+   TEST SOUND
 ========================================= */
 
-/*
-    This lets you test the sound immediately.
-
-    If you click TEST SOUND and hear it,
-    the timer sound will also work.
-*/
-
 function testSound() {
+
 
     initializeAudio();
 
     beep();
+
 
     setTimeout(() => {
 
@@ -1179,12 +1202,14 @@ function resetTimers() {
 
     document.getElementById(
         "timer1"
-    ).textContent = "00:30";
+    ).textContent =
+        "00:30";
 
 
     document.getElementById(
         "timer2"
-    ).textContent = "01:00";
+    ).textContent =
+        "01:00";
 
 
     document.getElementById(
@@ -1261,10 +1286,6 @@ function startTimers() {
                 );
 
 
-                /*
-                    Flash the screen.
-                */
-
                 document.getElementById(
                     "game"
                 ).classList.add(
@@ -1283,17 +1304,8 @@ function startTimers() {
                 }, 1200);
 
 
-                /*
-                    PLAY 3 LOUD BEEPS
-                */
-
                 timerBeep();
 
-
-                /*
-                    Start 1-minute timer
-                    after the beeps.
-                */
 
                 setTimeout(() => {
 
@@ -1369,10 +1381,6 @@ function startTimer2() {
                 );
 
 
-                /*
-                    Flash screen.
-                */
-
                 document.getElementById(
                     "game"
                 ).classList.add(
@@ -1391,10 +1399,6 @@ function startTimer2() {
                 }, 1200);
 
 
-                /*
-                    PLAY 3 LOUD BEEPS
-                */
-
                 timerBeep();
 
             }
@@ -1411,26 +1415,18 @@ function startTimer2() {
 function spin() {
 
 
-    /*
-        VERY IMPORTANT:
-
-        The user has clicked the SPIN button.
-
-        This gives Chrome permission to
-        activate the AudioContext.
-    */
-
     initializeAudio();
 
 
     if (spinning) {
+
         return;
     }
 
 
     /*
-        If all topics were used,
-        automatically start another round.
+        If every topic has been used,
+        start a new round.
     */
 
     if (
@@ -1468,20 +1464,6 @@ function spin() {
     let cycles = 0;
 
 
-    /*
-        ====================================
-        SPINNING TIME
-        ====================================
-
-        25 cycles × 80 milliseconds
-        = 2000 milliseconds
-        = 2 seconds
-
-        To change the speed/duration:
-
-        80 = current setting
-    */
-
     const spinInterval =
         setInterval(() => {
 
@@ -1497,13 +1479,17 @@ function spin() {
                 topics[randomIndex];
 
 
-            topicDisplay.textContent =
+            /*
+                FIXED:
 
-                randomTopic[0]
-                +
-                "  OR  "
-                +
-                randomTopic[1];
+                No [0]
+                No [1]
+                No OR
+                No undefined
+            */
+
+            topicDisplay.textContent =
+                randomTopic;
 
 
             cycles++;
@@ -1549,15 +1535,41 @@ function finishSpin() {
 
     /*
         Find unused topics.
+
+        Example:
+
+        topics = 10
+
+        usedTopics = [0, 3, 5]
+
+        availableTopics =
+        remaining 7 topics
     */
 
-    let availableTopics =
+    const availableTopics =
         topics.filter(
             (_, index) =>
                 !usedTopics.includes(
                     index
                 )
         );
+
+
+    /*
+        Safety check.
+
+        This prevents undefined
+        if there are no topics left.
+    */
+
+    if (
+        availableTopics.length === 0
+    ) {
+
+        newRound();
+
+        return;
+    }
 
 
     /*
@@ -1577,11 +1589,20 @@ function finishSpin() {
         ];
 
 
+    /*
+        Find the original index.
+    */
+
     const actualIndex =
         topics.indexOf(
             topic
         );
 
+
+    /*
+        Remember that this topic
+        has already been used.
+    */
 
     usedTopics.push(
         actualIndex
@@ -1590,15 +1611,16 @@ function finishSpin() {
 
     /*
         Display final topic.
+
+        FIXED:
+
+        No [0]
+        No [1]
+        No OR
     */
 
     topicDisplay.textContent =
-
-        topic[0]
-        +
-        "  OR  "
-        +
-        topic[1];
+        topic;
 
 
     topicDisplay.classList.remove(
@@ -1633,6 +1655,7 @@ function finishSpin() {
     topicDisplay.animate(
 
         [
+
             {
                 transform:
                     "scale(1)"
@@ -1647,11 +1670,15 @@ function finishSpin() {
                 transform:
                     "scale(1)"
             }
+
         ],
 
         {
+
             duration: 500,
+
             iterations: 2
+
         }
     );
 
@@ -1686,7 +1713,7 @@ function finishSpin() {
 
 
     /*
-        Show New Round button
+        Show NEW ROUND button
         after all topics are used.
     */
 
@@ -1728,7 +1755,10 @@ function newRound() {
     document.getElementById(
         "counter"
     ).textContent =
-        "Topics Used: 0 / 25";
+
+        "Topics Used: 0 / "
+        +
+        topics.length;
 
 
     document.getElementById(
@@ -1739,7 +1769,8 @@ function newRound() {
 
     document.getElementById(
         "spinButton"
-    ).disabled = false;
+    ).disabled =
+        false;
 }
 
 
@@ -1788,8 +1819,10 @@ function createConfetti() {
 
 
         confetti.style.left =
+
             Math.random() *
-            100 +
+            100
+            +
             "vw";
 
 
@@ -1854,7 +1887,6 @@ document.addEventListener(
 
     }
 );
-
 
 </script>
 
