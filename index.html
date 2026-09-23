@@ -885,34 +885,11 @@ body {
 
 </div>
 
-
 <script>
-
 
 /* =========================================
    TOPICS
 ========================================= */
-
-/*
-    IMPORTANT:
-
-    Each topic is now a STRING.
-
-    Previously:
-
-    ["Topic A", "Topic B"]
-
-    The old code tried to use:
-
-    topic[0]
-    topic[1]
-
-    which caused "undefined".
-
-    Now we simply use:
-
-    topic
-*/
 
 const topics = [
 
@@ -939,6 +916,10 @@ const topics = [
 ];
 
 
+/* =========================================
+   GAME VARIABLES
+========================================= */
+
 let usedTopics = [];
 
 let spinning = false;
@@ -958,23 +939,17 @@ let timer2Interval = null;
 
 
 /* =========================================
-   AUDIO SYSTEM
+   AUDIO
 ========================================= */
 
 let audioContext = null;
 
 
-/* =========================================
-   INITIALIZE AUDIO
-========================================= */
-
 function initializeAudio() {
-
 
     const AudioContext =
         window.AudioContext ||
         window.webkitAudioContext;
-
 
     if (!AudioContext) {
 
@@ -985,13 +960,11 @@ function initializeAudio() {
         return false;
     }
 
-
     if (!audioContext) {
 
         audioContext =
             new AudioContext();
     }
-
 
     if (
         audioContext.state ===
@@ -1000,7 +973,6 @@ function initializeAudio() {
 
         audioContext.resume();
     }
-
 
     return true;
 }
@@ -1012,29 +984,15 @@ function initializeAudio() {
 
 function beep() {
 
-
     if (!initializeAudio()) {
-
         return;
     }
-
-
-    if (
-        audioContext.state ===
-        "suspended"
-    ) {
-
-        audioContext.resume();
-    }
-
 
     const oscillator =
         audioContext.createOscillator();
 
-
     const gain =
         audioContext.createGain();
-
 
     oscillator.connect(gain);
 
@@ -1042,44 +1000,30 @@ function beep() {
         audioContext.destination
     );
 
-
     oscillator.type =
         "square";
-
 
     oscillator.frequency.setValueAtTime(
         1200,
         audioContext.currentTime
     );
 
-
-    gain.gain.cancelScheduledValues(
-        audioContext.currentTime
-    );
-
-
     gain.gain.setValueAtTime(
         1.0,
         audioContext.currentTime
     );
-
 
     gain.gain.setValueAtTime(
         1.0,
         audioContext.currentTime + 0.35
     );
 
-
     gain.gain.exponentialRampToValueAtTime(
         0.01,
         audioContext.currentTime + 0.7
     );
 
-
-    oscillator.start(
-        audioContext.currentTime
-    );
-
+    oscillator.start();
 
     oscillator.stop(
         audioContext.currentTime + 0.7
@@ -1093,21 +1037,14 @@ function beep() {
 
 function timerBeep() {
 
-
     beep();
 
-
     setTimeout(() => {
-
         beep();
-
     }, 700);
 
-
     setTimeout(() => {
-
         beep();
-
     }, 1400);
 }
 
@@ -1118,48 +1055,35 @@ function timerBeep() {
 
 function testSound() {
 
-
     initializeAudio();
 
     beep();
 
-
     setTimeout(() => {
-
         beep();
-
     }, 700);
 
-
     setTimeout(() => {
-
         beep();
-
     }, 1400);
 }
 
 
 /* =========================================
-   FORMAT TIMER
+   FORMAT TIME
 ========================================= */
 
 function formatTime(seconds) {
 
-
     const minutes =
-        Math.floor(
-            seconds / 60
-        );
-
+        Math.floor(seconds / 60);
 
     const remainingSeconds =
         seconds % 60;
 
-
     return (
 
-        String(minutes)
-            .padStart(2, "0")
+        String(minutes).padStart(2, "0")
 
         +
 
@@ -1167,8 +1091,7 @@ function formatTime(seconds) {
 
         +
 
-        String(remainingSeconds)
-            .padStart(2, "0")
+        String(remainingSeconds).padStart(2, "0")
     );
 }
 
@@ -1179,21 +1102,13 @@ function formatTime(seconds) {
 
 function resetTimers() {
 
+    clearInterval(timer1Interval);
 
-    clearInterval(
-        timer1Interval
-    );
-
-
-    clearInterval(
-        timer2Interval
-    );
-
+    clearInterval(timer2Interval);
 
     timer1Interval = null;
 
     timer2Interval = null;
-
 
     timer1Seconds = 30;
 
@@ -1202,14 +1117,12 @@ function resetTimers() {
 
     document.getElementById(
         "timer1"
-    ).textContent =
-        "00:30";
+    ).textContent = "00:30";
 
 
     document.getElementById(
         "timer2"
-    ).textContent =
-        "01:00";
+    ).textContent = "01:00";
 
 
     document.getElementById(
@@ -1235,15 +1148,12 @@ function resetTimers() {
 
 function startTimers() {
 
-
     resetTimers();
-
 
     const timer1 =
         document.getElementById(
             "timer1"
         );
-
 
     timer1.classList.add(
         "active"
@@ -1253,9 +1163,7 @@ function startTimers() {
     timer1Interval =
         setInterval(() => {
 
-
             timer1Seconds--;
-
 
             timer1.textContent =
                 formatTime(
@@ -1267,19 +1175,15 @@ function startTimers() {
                 timer1Seconds <= 0
             ) {
 
-
                 clearInterval(
                     timer1Interval
                 );
 
-
                 timer1Interval = null;
-
 
                 timer1.classList.remove(
                     "active"
                 );
-
 
                 timer1.classList.add(
                     "finished"
@@ -1309,19 +1213,14 @@ function startTimers() {
 
                 setTimeout(() => {
 
-
                     timer1.classList.remove(
                         "finished"
                     );
 
-
                     startTimer2();
 
-
                 }, 2100);
-
             }
-
 
         }, 1000);
 }
@@ -1332,7 +1231,6 @@ function startTimers() {
 ========================================= */
 
 function startTimer2() {
-
 
     const timer2 =
         document.getElementById(
@@ -1348,9 +1246,7 @@ function startTimer2() {
     timer2Interval =
         setInterval(() => {
 
-
             timer2Seconds--;
-
 
             timer2.textContent =
                 formatTime(
@@ -1362,19 +1258,15 @@ function startTimer2() {
                 timer2Seconds <= 0
             ) {
 
-
                 clearInterval(
                     timer2Interval
                 );
 
-
                 timer2Interval = null;
-
 
                 timer2.classList.remove(
                     "active"
                 );
-
 
                 timer2.classList.add(
                     "finished"
@@ -1400,33 +1292,56 @@ function startTimer2() {
 
 
                 timerBeep();
-
             }
-
 
         }, 1000);
 }
 
 
 /* =========================================
-   SPIN RANDOMIZER
+   DISPLAY TOPIC
+========================================= */
+
+function displayTopic(topic) {
+
+    const topicDisplay =
+        document.getElementById(
+            "topic"
+        );
+
+    /*
+        IMPORTANT
+
+        Display ONLY the topic.
+
+        There is NO:
+
+        [0]
+        [1]
+        OR
+    */
+
+    topicDisplay.textContent =
+        topic;
+}
+
+
+/* =========================================
+   SPIN
 ========================================= */
 
 function spin() {
-
 
     initializeAudio();
 
 
     if (spinning) {
-
         return;
     }
 
 
     /*
-        If every topic has been used,
-        start a new round.
+        All topics used
     */
 
     if (
@@ -1435,6 +1350,8 @@ function spin() {
     ) {
 
         newRound();
+
+        return;
     }
 
 
@@ -1464,6 +1381,22 @@ function spin() {
     let cycles = 0;
 
 
+    /*
+        Find topics that have
+        NOT been used yet.
+    */
+
+    const availableTopics =
+        topics.filter(
+            (_, index) =>
+                !usedTopics.includes(index)
+        );
+
+
+    /*
+        Slot machine animation
+    */
+
     const spinInterval =
         setInterval(() => {
 
@@ -1471,25 +1404,33 @@ function spin() {
             const randomIndex =
                 Math.floor(
                     Math.random() *
-                    topics.length
+                    availableTopics.length
                 );
 
 
             const randomTopic =
-                topics[randomIndex];
+                availableTopics[
+                    randomIndex
+                ];
 
 
             /*
-                FIXED:
+                IMPORTANT:
 
-                No [0]
-                No [1]
-                No OR
-                No undefined
+                Only display the string.
+
+                NEVER use:
+
+                randomTopic[0]
+
+                randomTopic[1]
+
+                "OR"
             */
 
-            topicDisplay.textContent =
-                randomTopic;
+            displayTopic(
+                randomTopic
+            );
 
 
             cycles++;
@@ -1499,16 +1440,13 @@ function spin() {
                 cycles >= 25
             ) {
 
-
                 clearInterval(
                     spinInterval
                 );
 
-
                 finishSpin();
 
             }
-
 
         }, 80);
 }
@@ -1534,36 +1472,26 @@ function finishSpin() {
 
 
     /*
-        Find unused topics.
-
-        Example:
-
-        topics = 10
-
-        usedTopics = [0, 3, 5]
-
-        availableTopics =
-        remaining 7 topics
+        Get unused topics.
     */
 
-    const availableTopics =
-        topics.filter(
-            (_, index) =>
-                !usedTopics.includes(
-                    index
-                )
-        );
+    const availableIndexes =
+        topics
+            .map(
+                (_, index) => index
+            )
+            .filter(
+                index =>
+                    !usedTopics.includes(index)
+            );
 
 
     /*
-        Safety check.
-
-        This prevents undefined
-        if there are no topics left.
+        Safety check
     */
 
     if (
-        availableTopics.length === 0
+        availableIndexes.length === 0
     ) {
 
         newRound();
@@ -1573,54 +1501,48 @@ function finishSpin() {
 
 
     /*
-        Select random unused topic.
+        Select random INDEX
     */
 
-    const selectedIndex =
+    const randomPosition =
         Math.floor(
             Math.random() *
-            availableTopics.length
+            availableIndexes.length
         );
 
 
-    const topic =
-        availableTopics[
+    const selectedIndex =
+        availableIndexes[
+            randomPosition
+        ];
+
+
+    /*
+        Get topic using index.
+    */
+
+    const selectedTopic =
+        topics[
             selectedIndex
         ];
 
 
     /*
-        Find the original index.
-    */
-
-    const actualIndex =
-        topics.indexOf(
-            topic
-        );
-
-
-    /*
-        Remember that this topic
-        has already been used.
+        Save used topic.
     */
 
     usedTopics.push(
-        actualIndex
+        selectedIndex
     );
 
 
     /*
-        Display final topic.
-
-        FIXED:
-
-        No [0]
-        No [1]
-        No OR
+        Display ONLY the topic.
     */
 
-    topicDisplay.textContent =
-        topic;
+    displayTopic(
+        selectedTopic
+    );
 
 
     topicDisplay.classList.remove(
@@ -1640,16 +1562,22 @@ function finishSpin() {
     ).textContent =
 
         "Topics Used: "
+
         +
+
         usedTopics.length
+
         +
+
         " / "
+
         +
+
         topics.length;
 
 
     /*
-        Winner animation.
+        Animation
     */
 
     topicDisplay.animate(
@@ -1684,7 +1612,7 @@ function finishSpin() {
 
 
     /*
-        Confetti.
+        Confetti
     */
 
     createConfetti();
@@ -1694,15 +1622,14 @@ function finishSpin() {
 
 
     /*
-        Reset timers.
+        Reset timers
     */
 
     resetTimers();
 
 
     /*
-        Automatically start
-        the 30-second timer.
+        Start 30-second timer
     */
 
     setTimeout(() => {
@@ -1713,8 +1640,7 @@ function finishSpin() {
 
 
     /*
-        Show NEW ROUND button
-        after all topics are used.
+        All topics completed
     */
 
     if (
@@ -1726,6 +1652,9 @@ function finishSpin() {
             "newRound"
         ).style.display =
             "inline-block";
+
+
+        button.disabled = true;
     }
 }
 
@@ -1736,9 +1665,7 @@ function finishSpin() {
 
 function newRound() {
 
-
     usedTopics = [];
-
 
     spinning = false;
 
@@ -1746,10 +1673,9 @@ function newRound() {
     resetTimers();
 
 
-    document.getElementById(
-        "topic"
-    ).textContent =
-        "READY?";
+    displayTopic(
+        "READY?"
+    );
 
 
     document.getElementById(
@@ -1757,7 +1683,9 @@ function newRound() {
     ).textContent =
 
         "Topics Used: 0 / "
+
         +
+
         topics.length;
 
 
@@ -1780,7 +1708,6 @@ function newRound() {
 
 function createConfetti() {
 
-
     const symbols = [
 
         "⭐",
@@ -1797,7 +1724,6 @@ function createConfetti() {
         i < 35;
         i++
     ) {
-
 
         const confetti =
             document.createElement(
@@ -1858,7 +1784,6 @@ function createConfetti() {
             confetti.remove();
 
         }, 5000);
-
     }
 }
 
@@ -1871,18 +1796,14 @@ document.addEventListener(
     "keydown",
     function(event) {
 
-
         if (
             event.code ===
             "Space"
         ) {
 
-
             event.preventDefault();
 
-
             spin();
-
         }
 
     }
