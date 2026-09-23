@@ -1,0 +1,925 @@
+<script>
+
+/* =========================================
+   TOPICS
+========================================= */
+
+const topics = [
+
+    "AI-generated videos make it harder to tell real news from fake news.",
+
+    "Posts on social media encourage risky behaviour among teenagers.",
+
+    "More people get news only from headlines, not full articles.",
+
+    "Online influencers accused of spreading false health information.",
+
+    "People prioritize mental health over career success.",
+
+    "Grades matter less as students focus on practical skills.",
+
+    "Gap years become more popular among high school graduates.",
+
+    "Young people spend more time talking to AI chatbots than to friends.",
+
+    "Fast fashion creates growing environmental problems around the world.",
+
+    "Schools debate whether smartphones should be completely banned in classrooms."
+
+];
+
+
+/* =========================================
+   GAME VARIABLES
+========================================= */
+
+let usedTopics = [];
+
+let spinning = false;
+
+
+/* =========================================
+   TIMER VARIABLES
+========================================= */
+
+let timer1Seconds = 30;
+
+let timer2Seconds = 60;
+
+let timer1Interval = null;
+
+let timer2Interval = null;
+
+
+/* =========================================
+   AUDIO
+========================================= */
+
+let audioContext = null;
+
+
+function initializeAudio() {
+
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+    if (!AudioContext) {
+
+        alert(
+            "Your browser does not support Web Audio."
+        );
+
+        return false;
+    }
+
+    if (!audioContext) {
+
+        audioContext =
+            new AudioContext();
+    }
+
+    if (
+        audioContext.state ===
+        "suspended"
+    ) {
+
+        audioContext.resume();
+    }
+
+    return true;
+}
+
+
+/* =========================================
+   BEEP
+========================================= */
+
+function beep() {
+
+    if (!initializeAudio()) {
+        return;
+    }
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    oscillator.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+    oscillator.type =
+        "square";
+
+    oscillator.frequency.setValueAtTime(
+        1200,
+        audioContext.currentTime
+    );
+
+    gain.gain.setValueAtTime(
+        1.0,
+        audioContext.currentTime
+    );
+
+    gain.gain.setValueAtTime(
+        1.0,
+        audioContext.currentTime + 0.35
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 0.7
+    );
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime + 0.7
+    );
+}
+
+
+/* =========================================
+   TIMER BEEP
+========================================= */
+
+function timerBeep() {
+
+    beep();
+
+    setTimeout(() => {
+        beep();
+    }, 700);
+
+    setTimeout(() => {
+        beep();
+    }, 1400);
+}
+
+
+/* =========================================
+   TEST SOUND
+========================================= */
+
+function testSound() {
+
+    initializeAudio();
+
+    beep();
+
+    setTimeout(() => {
+        beep();
+    }, 700);
+
+    setTimeout(() => {
+        beep();
+    }, 1400);
+}
+
+
+/* =========================================
+   FORMAT TIME
+========================================= */
+
+function formatTime(seconds) {
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const remainingSeconds =
+        seconds % 60;
+
+    return (
+
+        String(minutes).padStart(2, "0")
+
+        +
+
+        ":"
+
+        +
+
+        String(remainingSeconds).padStart(2, "0")
+    );
+}
+
+
+/* =========================================
+   RESET TIMERS
+========================================= */
+
+function resetTimers() {
+
+    clearInterval(timer1Interval);
+
+    clearInterval(timer2Interval);
+
+    timer1Interval = null;
+
+    timer2Interval = null;
+
+    timer1Seconds = 30;
+
+    timer2Seconds = 60;
+
+
+    document.getElementById(
+        "timer1"
+    ).textContent = "00:30";
+
+
+    document.getElementById(
+        "timer2"
+    ).textContent = "01:00";
+
+
+    document.getElementById(
+        "timer1"
+    ).classList.remove(
+        "active",
+        "finished"
+    );
+
+
+    document.getElementById(
+        "timer2"
+    ).classList.remove(
+        "active",
+        "finished"
+    );
+}
+
+
+/* =========================================
+   START TIMER 1
+========================================= */
+
+function startTimers() {
+
+    resetTimers();
+
+    const timer1 =
+        document.getElementById(
+            "timer1"
+        );
+
+    timer1.classList.add(
+        "active"
+    );
+
+
+    timer1Interval =
+        setInterval(() => {
+
+            timer1Seconds--;
+
+            timer1.textContent =
+                formatTime(
+                    timer1Seconds
+                );
+
+
+            if (
+                timer1Seconds <= 0
+            ) {
+
+                clearInterval(
+                    timer1Interval
+                );
+
+                timer1Interval = null;
+
+                timer1.classList.remove(
+                    "active"
+                );
+
+                timer1.classList.add(
+                    "finished"
+                );
+
+
+                document.getElementById(
+                    "game"
+                ).classList.add(
+                    "flash"
+                );
+
+
+                setTimeout(() => {
+
+                    document.getElementById(
+                        "game"
+                    ).classList.remove(
+                        "flash"
+                    );
+
+                }, 1200);
+
+
+                timerBeep();
+
+
+                setTimeout(() => {
+
+                    timer1.classList.remove(
+                        "finished"
+                    );
+
+                    startTimer2();
+
+                }, 2100);
+            }
+
+        }, 1000);
+}
+
+
+/* =========================================
+   START TIMER 2
+========================================= */
+
+function startTimer2() {
+
+    const timer2 =
+        document.getElementById(
+            "timer2"
+        );
+
+
+    timer2.classList.add(
+        "active"
+    );
+
+
+    timer2Interval =
+        setInterval(() => {
+
+            timer2Seconds--;
+
+            timer2.textContent =
+                formatTime(
+                    timer2Seconds
+                );
+
+
+            if (
+                timer2Seconds <= 0
+            ) {
+
+                clearInterval(
+                    timer2Interval
+                );
+
+                timer2Interval = null;
+
+                timer2.classList.remove(
+                    "active"
+                );
+
+                timer2.classList.add(
+                    "finished"
+                );
+
+
+                document.getElementById(
+                    "game"
+                ).classList.add(
+                    "flash"
+                );
+
+
+                setTimeout(() => {
+
+                    document.getElementById(
+                        "game"
+                    ).classList.remove(
+                        "flash"
+                    );
+
+                }, 1200);
+
+
+                timerBeep();
+            }
+
+        }, 1000);
+}
+
+
+/* =========================================
+   DISPLAY TOPIC
+========================================= */
+
+function displayTopic(topic) {
+
+    const topicDisplay =
+        document.getElementById(
+            "topic"
+        );
+
+    /*
+        IMPORTANT
+
+        Display ONLY the topic.
+
+        There is NO:
+
+        [0]
+        [1]
+        OR
+    */
+
+    topicDisplay.textContent =
+        topic;
+}
+
+
+/* =========================================
+   SPIN
+========================================= */
+
+function spin() {
+
+    initializeAudio();
+
+
+    if (spinning) {
+        return;
+    }
+
+
+    /*
+        All topics used
+    */
+
+    if (
+        usedTopics.length >=
+        topics.length
+    ) {
+
+        newRound();
+
+        return;
+    }
+
+
+    spinning = true;
+
+
+    const button =
+        document.getElementById(
+            "spinButton"
+        );
+
+
+    const topicDisplay =
+        document.getElementById(
+            "topic"
+        );
+
+
+    button.disabled = true;
+
+
+    topicDisplay.classList.add(
+        "spinning"
+    );
+
+
+    let cycles = 0;
+
+
+    /*
+        Find topics that have
+        NOT been used yet.
+    */
+
+    const availableTopics =
+        topics.filter(
+            (_, index) =>
+                !usedTopics.includes(index)
+        );
+
+
+    /*
+        Slot machine animation
+    */
+
+    const spinInterval =
+        setInterval(() => {
+
+
+            const randomIndex =
+                Math.floor(
+                    Math.random() *
+                    availableTopics.length
+                );
+
+
+            const randomTopic =
+                availableTopics[
+                    randomIndex
+                ];
+
+
+            /*
+                IMPORTANT:
+
+                Only display the string.
+
+                NEVER use:
+
+                randomTopic[0]
+
+                randomTopic[1]
+
+                "OR"
+            */
+
+            displayTopic(
+                randomTopic
+            );
+
+
+            cycles++;
+
+
+            if (
+                cycles >= 25
+            ) {
+
+                clearInterval(
+                    spinInterval
+                );
+
+                finishSpin();
+
+            }
+
+        }, 80);
+}
+
+
+/* =========================================
+   FINISH SPIN
+========================================= */
+
+function finishSpin() {
+
+
+    const topicDisplay =
+        document.getElementById(
+            "topic"
+        );
+
+
+    const button =
+        document.getElementById(
+            "spinButton"
+        );
+
+
+    /*
+        Get unused topics.
+    */
+
+    const availableIndexes =
+        topics
+            .map(
+                (_, index) => index
+            )
+            .filter(
+                index =>
+                    !usedTopics.includes(index)
+            );
+
+
+    /*
+        Safety check
+    */
+
+    if (
+        availableIndexes.length === 0
+    ) {
+
+        newRound();
+
+        return;
+    }
+
+
+    /*
+        Select random INDEX
+    */
+
+    const randomPosition =
+        Math.floor(
+            Math.random() *
+            availableIndexes.length
+        );
+
+
+    const selectedIndex =
+        availableIndexes[
+            randomPosition
+        ];
+
+
+    /*
+        Get topic using index.
+    */
+
+    const selectedTopic =
+        topics[
+            selectedIndex
+        ];
+
+
+    /*
+        Save used topic.
+    */
+
+    usedTopics.push(
+        selectedIndex
+    );
+
+
+    /*
+        Display ONLY the topic.
+    */
+
+    displayTopic(
+        selectedTopic
+    );
+
+
+    topicDisplay.classList.remove(
+        "spinning"
+    );
+
+
+    button.disabled = false;
+
+
+    /*
+        Update counter.
+    */
+
+    document.getElementById(
+        "counter"
+    ).textContent =
+
+        "Topics Used: "
+
+        +
+
+        usedTopics.length
+
+        +
+
+        " / "
+
+        +
+
+        topics.length;
+
+
+    /*
+        Animation
+    */
+
+    topicDisplay.animate(
+
+        [
+
+            {
+                transform:
+                    "scale(1)"
+            },
+
+            {
+                transform:
+                    "scale(1.15)"
+            },
+
+            {
+                transform:
+                    "scale(1)"
+            }
+
+        ],
+
+        {
+
+            duration: 500,
+
+            iterations: 2
+
+        }
+    );
+
+
+    /*
+        Confetti
+    */
+
+    createConfetti();
+
+
+    spinning = false;
+
+
+    /*
+        Reset timers
+    */
+
+    resetTimers();
+
+
+    /*
+        Start 30-second timer
+    */
+
+    setTimeout(() => {
+
+        startTimers();
+
+    }, 500);
+
+
+    /*
+        All topics completed
+    */
+
+    if (
+        usedTopics.length >=
+        topics.length
+    ) {
+
+        document.getElementById(
+            "newRound"
+        ).style.display =
+            "inline-block";
+
+
+        button.disabled = true;
+    }
+}
+
+
+/* =========================================
+   NEW ROUND
+========================================= */
+
+function newRound() {
+
+    usedTopics = [];
+
+    spinning = false;
+
+
+    resetTimers();
+
+
+    displayTopic(
+        "READY?"
+    );
+
+
+    document.getElementById(
+        "counter"
+    ).textContent =
+
+        "Topics Used: 0 / "
+
+        +
+
+        topics.length;
+
+
+    document.getElementById(
+        "newRound"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "spinButton"
+    ).disabled =
+        false;
+}
+
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+function createConfetti() {
+
+    const symbols = [
+
+        "⭐",
+        "✨",
+        "🎉",
+        "🎊",
+        "💫"
+
+    ];
+
+
+    for (
+        let i = 0;
+        i < 35;
+        i++
+    ) {
+
+        const confetti =
+            document.createElement(
+                "div"
+            );
+
+
+        confetti.className =
+            "confetti";
+
+
+        confetti.textContent =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+
+        confetti.style.left =
+
+            Math.random() *
+            100
+            +
+            "vw";
+
+
+        confetti.style.fontSize =
+
+            (
+                15 +
+                Math.random() *
+                20
+            )
+            +
+            "px";
+
+
+        confetti.style.animationDuration =
+
+            (
+                2 +
+                Math.random() *
+                3
+            )
+            +
+            "s";
+
+
+        document.body.appendChild(
+            confetti
+        );
+
+
+        setTimeout(() => {
+
+            confetti.remove();
+
+        }, 5000);
+    }
+}
+
+
+/* =========================================
+   SPACEBAR = SPIN
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.code ===
+            "Space"
+        ) {
+
+            event.preventDefault();
+
+            spin();
+        }
+
+    }
+);
+
+</script>
